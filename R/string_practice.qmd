@@ -31,10 +31,12 @@ Practice working with strings by writing code to update alarm_report as follows 
 
 
 ```{r}
-alarm_report %>% 
+new_alarm_report <- alarm_report %>% 
   mutate(building = str_replace(building, pattern ="Engr", replacement = "Engineering")) %>% 
-  separate(building, "-", into = c("building", "wing")) %>% 
-  
+  separate(building, into = c("building", "wing"), sep = ("-")) %>% 
+  filter(str_detect(alarm_message, pattern = "responded")) %>% 
+  separate(alarm_message, into = c("time", "alarm_message"), sep = ("–")) %>% 
+  mutate(date = lubridate::ymd(date))
 ```
 
 
